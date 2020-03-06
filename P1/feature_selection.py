@@ -32,7 +32,7 @@ def get_correlated_features(data):
         #print('Spearmans correlation: %.3f' % corr_spearmanr)
         sum_spearsman += abs(corr_spearmanr)
 
-        if (abs(corr_pearsonr) >= 0.7 or abs(corr_spearmanr) >= 0.7) and columnName != "critical_temp":
+        if (abs(corr_pearsonr) >= 0.73 or abs(corr_spearmanr) >= 0.73) and columnName != "critical_temp":
             print(columnName)
             correlated_features.append(columnName)
             print(corr_pearsonr, "   ", corr_spearmanr)

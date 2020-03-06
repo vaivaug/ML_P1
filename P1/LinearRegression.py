@@ -15,8 +15,6 @@ def get_predicted_values(train_target, train, test_target, test):
     print(len(test_target))
     # predicted_temp = pd.DataFrame(predicted_temp, columns=['critical_temp'])
 
-    print(test_target)
-    print(predicted_temp)
 
     # model.predict(test_target)
 

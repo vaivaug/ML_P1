@@ -15,21 +15,36 @@ data_df = get_clean_dataframe(filedir_train)
 # do not use test set after this point till the very end
 train, test, validation = get_train_test_validation_dfs(data_df)
 
-run_xgboost(train, test)
+# run_xgboost(train, test)
 
 # analyse correlating features when visualising data
 # scatter_matrix
+
 correlated_features = get_correlated_features(train)
+print(correlated_features)
 
-train_target = train[['critical_temp']]
-train = train[correlated_features]
+train_target = train.iloc[:, -1]
+train_data = train[correlated_features]
 
-validation_target = validation[['critical_temp']]
-validation = validation[correlated_features]
+test_target = validation.iloc[:, -1]
+test_data = validation[correlated_features]
 
-#get_predicted_values(train_target, train, validation_target, validation)
+get_predicted_values(train_target, train_data, test_target, test_data)
 
-print(len(correlated_features))
+
+run_xgboost(train, validation)
+
+#train_target = train[['critical_temp']]
+#train = train[correlated_features]
+
+#validation_target = validation[['critical_temp']]
+#validation = validation[correlated_features]
+
+
+
+# get_predicted_values(train_target, train, validation_target, validation)
+
+#print(len(correlated_features))
 
 
 
