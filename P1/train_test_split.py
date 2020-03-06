@@ -2,6 +2,11 @@
 
 '''function returns the same train and test sets each time the program is run'''
 def get_train_test_validation_dfs(data_df):
+    """ :param data_df: pandas dataframe for input data
+        :return: pandas dataframes for train, test and validation data
+
+    Split input data into test and train datasets. Split test dataset into test and validation to avoid overfitting
+    """
 
     data_df = data_df.reset_index(drop=True)
 

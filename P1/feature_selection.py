@@ -18,13 +18,19 @@ def get_correlated_features(data):
     data2 = pd.DataFrame(data, columns=['critical_temp'])
     correlated_features = []
 
-    for (columnName, columnData) in data.iteritems():
+    number_of_features=0
+    sum_pearsonr = 0
+    sum_spearsman = 0
 
+    for (columnName, columnData) in data.iteritems():
+        number_of_features+=1
         corr_pearsonr, _ = pearsonr(data[columnName], data['critical_temp'])
-       # print('Pearsons correlation: %.3f' % corr_pearsonr)
+        # print('Pearsons correlation: %.3f' % corr_pearsonr)
+        sum_pearsonr += abs(corr_pearsonr)
 
         corr_spearmanr, _ = spearmanr(data[columnName], data['critical_temp'])
         #print('Spearmans correlation: %.3f' % corr_spearmanr)
+        sum_spearsman += abs(corr_spearmanr)
 
         if (abs(corr_pearsonr) >= 0.7 or abs(corr_spearmanr) >= 0.7) and columnName != "critical_temp":
             print(columnName)
@@ -32,6 +38,7 @@ def get_correlated_features(data):
             print(corr_pearsonr, "   ", corr_spearmanr)
             print()
 
+    # print('average correlation: ', sum_pearsonr/number_of_features, '   ', sum_spearsman/number_of_features)
     return correlated_features
 
 
