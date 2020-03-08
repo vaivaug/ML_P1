@@ -1,6 +1,5 @@
 
 
-'''function returns the same train and test sets each time the program is run'''
 def get_train_test_validation_dfs(data_df):
     """ :param data_df: pandas dataframe for input data
         :return: pandas dataframes for train, test and validation data
