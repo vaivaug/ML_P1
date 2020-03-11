@@ -4,14 +4,14 @@ from sklearn.feature_selection import RFE
 
 
 def get_best_rfe_features_LinearRegression(train_input, train_target, number_of_features):
-    """ :param train_input:
-        :param train_target:
-        :param number_of_features:
-        :return:
+    """ :param train_input: pandas dataframe, stores feature columns of train data
+        :param train_target: pandas dataframe, stores target column of train data
+        :param number_of_features: number of features we want to select
+        :return: a list of selected features
     """
 
     model = LinearRegression()
-    selector = RFE(model, number_of_features, step=1)
+    selector = RFE(model, number_of_features)
     selector.fit(train_input, train_target)
     sorted_features = sorted(zip(map(lambda x: round(x, 4), selector.ranking_), list(train_input.columns)))
 
@@ -19,7 +19,5 @@ def get_best_rfe_features_LinearRegression(train_input, train_target, number_of_
     best_features = []
     for i in range(0, number_of_features):
         best_features.append(sorted_features[i][1])
-
-    print(best_features)
 
     return best_features

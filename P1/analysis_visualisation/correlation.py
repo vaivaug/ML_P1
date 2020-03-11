@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot_correlation(data_input, data_target):
+def plot_correlation_all_features(data_input, data_target):
     """ :param data_input: pandas dataframe, stores feature columns of train data
         :param data_target: pandas dataframe, stores target column of train data
 
