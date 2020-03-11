@@ -2,7 +2,7 @@ from sklearn import preprocessing
 from pandas import DataFrame
 
 
-def get_train_test_normalized(data_train, data_test, norm='l1'):
+def get_train_test_normalized(data_train, data_test, norm='max'):
     normalized_train = preprocessing.normalize(data_train, norm=norm)
     normalized_test = preprocessing.normalize(data_test, norm=norm)
     return DataFrame(normalized_train), DataFrame(normalized_test)

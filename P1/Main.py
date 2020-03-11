@@ -1,12 +1,10 @@
 
-from prepare_data import get_clean_dataframe
-from train_test_split import get_train_test_validation_dfs
-from feature_selection import get_correlated_features
-from LinearRegression import *
-from rescaling_data import describe_data, get_train_test_normalized, get_train_test_standardized
-from XGBoost import run_xgboost
-import matplotlib.pyplot as plt
-from pandas.plotting import scatter_matrix
+from data_preparation.prepare_data import get_clean_dataframe
+from data_preparation.train_test_split import get_train_test_validation_dfs
+from model.LinearRegression import *
+from analysis_visualisation.data_analysis import *
+from feature_selection.recursive_feature_elimination import get_best_rfe_features_LinearRegression
+from analysis_visualisation.correlation import plot_correlation
 
 data_filedir = "data/train.csv"
 
@@ -17,11 +15,17 @@ data_df = get_clean_dataframe(data_filedir)
 # do not use test set after this point till the very end
 train, test, validation = get_train_test_validation_dfs(data_df)
 
+# describe data
+describe_data(train)
+
 # separate target column from the input columns
 train_target = train.iloc[:, -1]
 train_input = train.iloc[:, :-1]
 test_target = validation.iloc[:, -1]
 test_input = validation.iloc[:, :-1]
+
+# visualise correlation plot
+plot_correlation(train_input, train_target)
 
 
 # run Linear Regression with original features
@@ -41,19 +45,19 @@ run_LinearRegression_normalized(train_target, train_input, test_target, test_inp
 
 # run Linear Regression with all features standardized and normalized
 print('Linear Regression, all features, normalized and standardized data values: ')
-run_LinearRegression_normalized(train_target, train_input, test_target, test_input)
-
+run_LinearRegression_standardized_normalized(train_target, train_input, test_target, test_input)
 
 
 # select correlated features
-train_input['critical_temp'] = train_target.values
-correlated_features = get_correlated_features(train_input)
+#train_input['critical_temp'] = train_target.values
+#correlated_features = get_correlated_features(train_input, train_target, 0.65)
+
+best_features = get_best_rfe_features_LinearRegression(train_input, train_target, 5)
+run_LinearRegression(train_target, train_input[best_features], test_target, test_input[best_features])
 
 
-
-
-scatter_matrix(train_input)
-plt.show()
+#scatter_matrix(train_input)
+#plt.show()
 
 
 
