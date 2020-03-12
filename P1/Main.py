@@ -8,6 +8,9 @@ from analysis_visualisation.correlation import plot_correlation_all_features
 from feature_selection.Pearson_correlation import get_correlated_features, plot_correlating_features
 
 data_filedir = "data/train.csv"
+import matplotlib.pyplot as plt
+import pandas as pd
+
 
 # clean data
 data_df = get_clean_dataframe(data_filedir)
@@ -29,7 +32,7 @@ test_input = validation.iloc[:, :-1]
 # plot_correlation_all_features(train_input, train_target)
 
 # select and plot correlated features Pearson correlation
-correlation_limit = 0.65
+correlation_limit = 0.63
 correlated_features = get_correlated_features(train, correlation_limit)
 plot_correlating_features(train[correlated_features], train_target)
 
@@ -38,33 +41,18 @@ plot_correlating_features(train[correlated_features], train_target)
 number_of_features = 5
 best_features = get_best_rfe_features_LinearRegression(train_input, train_target, number_of_features)
 print(best_features)
-plot_correlating_features(train[best_features], train_target)
+# plot_correlating_features(train[best_features], train_target)
 
-
-
-# run Linear Regression with original features
-print('Linear Regression, all features, original data values: ')
-predicted_target = get_predictions_LinearRegression(train_target, train_input, test_target, test_input)
-
-
-# run Linear Regression with all features standardized
-print('Linear Regression, all features, standardize data values: ')
-predicted_target = run_LinearRegression_standardized(train_target, train_input, test_target, test_input)
-
-
-# run Linear Regression with all features normalized
-print('Linear Regression, all features, normalized data values: ')
-predicted_target = run_LinearRegression_normalized(train_target, train_input, test_target, test_input)
-
-
-# run Linear Regression with all features standardized and normalized
-print('Linear Regression, all features, normalized and standardized data values: ')
-predicted_target = run_LinearRegression_standardized_normalized(train_target, train_input, test_target, test_input)
-
+# run Linear Regression 4 times with all features
+run_tests_evaluate(train_target, train_input, test_target, test_input)
 
 # select correlated features
-#train_input['critical_temp'] = train_target.values
-#correlated_features = get_correlated_features(train_input, train_target, 0.65)
+correlated_features = get_correlated_features(train, 0.65)
+
+train_input = train_input[correlated_features]
+test_input = test_input[correlated_features]
+# run Linear Regression 4 times with all features
+run_tests_evaluate(train_target, train_input, test_target, test_input)
 
 best_features = get_best_rfe_features_LinearRegression(train_input, train_target, 5)
 predicted_target = get_predictions_LinearRegression(train_target, train_input[best_features], test_target, test_input[best_features])
