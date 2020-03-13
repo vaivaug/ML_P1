@@ -51,25 +51,29 @@ def plot_test_predicted_results(test_target, predicted_target):
 def run_tests_evaluate(train_target, train_input, test_target, test_input):
 
     # run Linear Regression with original features
-    print('Linear Regression, all features, original data values: ')
+    print('Linear Regression, original data values: ')
     predicted_target = get_predictions_LinearRegression(train_target, train_input, test_target, test_input)
     print_rmse(test_target, predicted_target)
     print_mae(test_target, predicted_target)
+    plot_test_predicted_results(test_target, predicted_target)
 
     # run Linear Regression with all features standardized
-    print('Linear Regression, all features, standardize data values: ')
+    print('Linear Regression, standardize data values: ')
     predicted_target = run_LinearRegression_standardized(train_target, train_input, test_target, test_input)
     print_rmse(test_target, predicted_target)
     print_mae(test_target, predicted_target)
+    plot_test_predicted_results(test_target, predicted_target)
 
     # run Linear Regression with all features normalized
-    print('Linear Regression, all features, normalized data values: ')
+    print('Linear Regression, normalized data values: ')
     predicted_target = run_LinearRegression_normalized(train_target, train_input, test_target, test_input)
     print_rmse(test_target, predicted_target)
     print_mae(test_target, predicted_target)
+    plot_test_predicted_results(test_target, predicted_target)
 
     # run Linear Regression with all features standardized and normalized
-    print('Linear Regression, all features, normalized and standardized data values: ')
+    print('Linear Regression, normalized and standardized data values: ')
     predicted_target = run_LinearRegression_standardized_normalized(train_target, train_input, test_target, test_input)
     print_rmse(test_target, predicted_target)
     print_mae(test_target, predicted_target)
+    plot_test_predicted_results(test_target, predicted_target)

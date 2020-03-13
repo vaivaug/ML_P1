@@ -34,28 +34,27 @@ test_input = validation.iloc[:, :-1]
 # select and plot correlated features Pearson correlation
 correlation_limit = 0.63
 correlated_features = get_correlated_features(train, correlation_limit)
-plot_correlating_features(train[correlated_features], train_target)
+# plot_correlating_features(train[correlated_features], train_target)
+print('Pearson features: ', correlated_features)
 
 
-# select k best features for Linear Regression model
+# select k best features for Linear Regression model using RFE
 number_of_features = 5
-best_features = get_best_rfe_features_LinearRegression(train_input, train_target, number_of_features)
-print(best_features)
+rfe_features = get_best_rfe_features_LinearRegression(train_input, train_target, number_of_features)
+print('RFE features: ', rfe_features)
 # plot_correlating_features(train[best_features], train_target)
 
 # run Linear Regression 4 times with all features
+print("Linear Regression all features: ")
 run_tests_evaluate(train_target, train_input, test_target, test_input)
 
-# select correlated features
-correlated_features = get_correlated_features(train, 0.65)
+print("Linear Regression Pearson correlated features")
+run_tests_evaluate(train_target, train_input[correlated_features], test_target, test_input[correlated_features])
 
-train_input = train_input[correlated_features]
-test_input = test_input[correlated_features]
-# run Linear Regression 4 times with all features
-run_tests_evaluate(train_target, train_input, test_target, test_input)
+print("Linear Regression RFE selected features")
+run_tests_evaluate(train_target, train_input[rfe_features], test_target, test_input[rfe_features])
 
-best_features = get_best_rfe_features_LinearRegression(train_input, train_target, 5)
-predicted_target = get_predictions_LinearRegression(train_target, train_input[best_features], test_target, test_input[best_features])
+
 
 
 #scatter_matrix(train_input)

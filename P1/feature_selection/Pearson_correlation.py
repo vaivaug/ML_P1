@@ -23,7 +23,6 @@ def plot_correlating_features(data_input, data_target):
     data_input['critical_temp'] = data_target.values
     plt.figure(figsize=(20, 10))
     cor = data_input.corr(method='pearson')
-    print(cor)
     cor = abs(cor)
     figure = plt.gcf()
     sns.heatmap(cor, annot=False, cmap=plt.cm.Reds)
@@ -55,7 +54,6 @@ def get_correlated_features(train, cor_limit):
     print('correlating features: ')
     for row in correlated_features.index:
         corr_features_list.append(row)
-    print(corr_features_list)
 
     return corr_features_list
 
